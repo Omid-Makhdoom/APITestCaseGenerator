@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fanapsoft.qc</groupId>
+  <artifactId>APITestCaseGenerator</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+  <dependency>
+  <groupId>io.swagger.parser.v3</groupId>
+  <artifactId>swagger-parser</artifactId>
+  <version>2.0.17</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-jdk14</artifactId>
+    <version>1.7.25</version>
+</dependency>
+
+<dependency>
+    <groupId>com.github.javaparser</groupId>
+    <artifactId>javaparser-symbol-solver-core</artifactId>
+    <version>3.15.12</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.eclipse.core/org.eclipse.core.resources -->
+<dependency>
+    <groupId>org.eclipse.core</groupId>
+    <artifactId>org.eclipse.core.resources</artifactId>
+    <version>3.7.100</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.core -->
+<dependency>
+    <groupId>org.eclipse.jdt</groupId>
+    <artifactId>org.eclipse.jdt.core</artifactId>
+    <version>3.20.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/io.swagger/swagger-inflector -->
+<dependency>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-inflector</artifactId>
+    <version>1.0.19</version>
+</dependency>
+
+
+
+
+
+</dependencies>
+</project>

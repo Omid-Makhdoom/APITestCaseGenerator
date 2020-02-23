@@ -1,0 +1,5784 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Pod IoT Platform is all you need to provision, manage and automate your connected devices. ",
+    "version": "2.1.6.0",
+    "title": "Pod IoT Platform API",
+    "termsOfService": "#",
+    "contact": {
+      "name": "Podiot",
+      "url": "https://iot.pod.ir",
+      "email": "iot@fanap.ir"
+    },
+    "license": {
+      "name": "Podiot"
+    }
+  },
+  "host": "iot-api.pod.ir",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Device",
+      "description": "DEVICE services and operations live here"
+    },
+    {
+      "name": "Device Data",
+      "description": "DEVICE-DATA services and operations live here"
+    },
+    {
+      "name": "Device Group",
+      "description": "DEVICE-GROUP and operations live here"
+    },
+    {
+      "name": "Device Twin",
+      "description": "DEVICE-TWIN services and operations live here"
+    },
+    {
+      "name": "Device Type",
+      "description": "DEVICE-TYPE services and operations live here"
+    },
+    {
+      "name": "Get Token",
+      "description": "GET TOKEN from sso - Users must use POD services so we hide these services"
+    },
+    {
+      "name": "Job",
+      "description": "JOB management and controlling"
+    },
+    {
+      "name": "Role",
+      "description": "ROLE services and operations live here"
+    },
+    {
+      "name": "Role Assignment",
+      "description": "ROLE-ASSIGNMENT services and operations live here"
+    },
+    {
+      "name": "Schedule",
+      "description": "SCHEDULE services and operations live here"
+    },
+    {
+      "name": "Service",
+      "description": "Service monitoring services live here"
+    },
+    {
+      "name": "User Group",
+      "description": "USER-GROUP services and operations live here"
+    }
+  ],
+  "paths": {
+    "/device-data/to-device/{deviceId}": {
+      "post": {
+        "tags": [
+          "Device Data"
+        ],
+        "summary": "Send data to the device directly from platform.",
+        "operationId": "Send data to device",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to which data is going to be sent",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "sendDataToDeviceRequest",
+            "description": "Properties and values which are going to be sent to device",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AttributeValue"
+              }
+            }
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiSendDataToDeviceResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute name in request Or Invalid Attribute value(s)"
+          },
+          "401": {
+            "description": "User not authorized "
+          },
+          "403": {
+            "description": "Device attribute not readable"
+          },
+          "404": {
+            "description": "Device not found or Attribute not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-data/{deviceId}": {
+      "get": {
+        "tags": [
+          "Device Data"
+        ],
+        "summary": "Read device data from platform.",
+        "operationId": "Read data",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device that it's attribute to be read.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "requestId",
+            "in": "query",
+            "description": "requestId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ReadDataRequest"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device Data"
+        ],
+        "summary": "Write device data to platform.",
+        "operationId": "Write data",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device that it's attribute are going to be changed.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "writeDataRequest",
+            "description": "Properties and values to be written in platform",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AttributeValue"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiWriteDataResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute name in request"
+          },
+          "401": {
+            "description": "User not authorized "
+          },
+          "403": {
+            "description": "Attribute not readable by device"
+          },
+          "404": {
+            "description": "Attribute not found or Device not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-groups": {
+      "get": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Get list of all device-groups",
+        "operationId": "listDeviceGroupsUsingGET",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "query",
+            "description": "Filters list of device-groups based on their device-type id",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters list of device-groups based on their names",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ListDeviceGroupsResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Create a device-group",
+        "operationId": "createDeviceGroupUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createDeviceGroupRequest",
+            "description": "Properties and values of the device-group which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateDeviceGroupRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/CreateDeviceGroupResponse"
+            }
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Duplicate device-group name"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-groups/{deviceGroupId}": {
+      "get": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Get details of the specified device-group.",
+        "operationId": "showDeviceGroupUsingGET",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of the device-group that is going to be displayed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ShowDeviceGroupResponse"
+            }
+          },
+          "404": {
+            "description": "Device-group not found!"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Edit a device-group",
+        "operationId": "editDeviceGroupUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of device-group which is going to be edited",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "editDeviceGroupRequest",
+            "description": "Properties and values of the device-group which is going to be edited",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EditDeviceGroupRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/EditDeviceGroupRequest"
+            }
+          },
+          "404": {
+            "description": "Device type not found"
+          },
+          "409": {
+            "description": "Duplicate device-group name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Delete the specified device-group",
+        "operationId": "Delete device-group_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of device to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteDeviceGroupResponse"
+            }
+          },
+          "404": {
+            "description": "Device-group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-groups/{deviceGroupId}/devices": {
+      "get": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Get list of devices in a device-group.",
+        "operationId": "listDevicesOfDeviceGroupUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of the device-group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of device",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ListDeviceOfDeviceGroupResponse"
+            }
+          },
+          "404": {
+            "description": "Device-group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-groups/{deviceGroupId}/devices/{deviceId}": {
+      "post": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Add a device to a device-group, if exists.",
+        "operationId": "Delete device-group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of device-group to which a device is going to be added",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of device that is going to be added to a device-group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/AddDeviceToDeviceGroupResponse"
+            }
+          },
+          "404": {
+            "description": "Device-group not found or Device not found"
+          },
+          "409": {
+            "description": "Device and device-group have different device-types Or Device has already been added to the device-group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device Group"
+        ],
+        "summary": "Remove a device from a device-group",
+        "operationId": "Remove device from device-group",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "id of device-group from which a device is going to be removed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "id of device that is going to be removed from a device-group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/RemoveDeviceFromDeviceGroup"
+            }
+          },
+          "404": {
+            "description": "Device-group not found or Device not found"
+          },
+          "409": {
+            "description": "Device does not exist in the group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-twins/{deviceId}": {
+      "get": {
+        "tags": [
+          "Device Twin"
+        ],
+        "summary": "Show a device-twin",
+        "operationId": "showUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to be edited.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeviceTwinDetail"
+            }
+          },
+          "404": {
+            "description": "Device not found or Device-twin not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Device Twin"
+        ],
+        "summary": "Update a device-twin",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device for which device-twin is going to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "deviceTwinDesired",
+            "description": "Properties and values of the device-twin",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiDeviceTwinDesired"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeviceTwinDetail"
+            }
+          },
+          "404": {
+            "description": "Device not found or device-twin not found or Attribute not found"
+          },
+          "409": {
+            "description": "Attribute type and value do not match"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device Twin"
+        ],
+        "summary": "Delete a device-twin",
+        "operationId": "deleteDeviceTwinUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device for which the device-twin is going to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteDeviceTwinResponse"
+            }
+          },
+          "404": {
+            "description": "Device not found or Device-twin not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-types": {
+      "get": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Get list of device-types in the platform.",
+        "operationId": "listUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on device-type name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDeviceTypeResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Create a device-type",
+        "operationId": "createUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createDeviceTypeRequest",
+            "description": "Properties and values of the device-type which is going to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceTypeRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceTypeResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute type"
+          },
+          "409": {
+            "description": "Duplicate device-type"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-types/{deviceTypeId}": {
+      "get": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Get details of a specified device-type.",
+        "operationId": "showUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "path",
+            "description": "Id of the device type to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowDeviceTypeResponse"
+            }
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Delete specified device-type in the platform, if exists.",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "path",
+            "description": "Id of the device-type to delete.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Device-type in use"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Get the list of devices.",
+        "operationId": "listUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "query",
+            "description": "deviceTypeId",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "isOwned",
+            "in": "query",
+            "description": "True means only my devices, False means granted devices, Leave it empty for listing all of owned and granted devices.",
+            "required": false,
+            "type": "boolean",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on device name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Page number exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Create a device",
+        "operationId": "createUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createDeviceRequest",
+            "description": "Properties and values of the device which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute type"
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Duplicate device"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "502": {
+            "description": "Backend service failure (data store failure)"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/devices/{deviceId}": {
+      "get": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Get details of a specified device.",
+        "operationId": "showUsingGET_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Edit a device",
+        "operationId": "editUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to be edited.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "editDeviceRequest",
+            "description": "Properties and values of the device which is going to be edited",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiEditDeviceRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiEditDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "409": {
+            "description": "Duplicate device name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Delete specified device in the current user space, if exists.",
+        "operationId": "Delete device",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of device to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "409": {
+            "description": "Device is attached to a job or Device is member of a group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "List jobs",
+        "operationId": "listUsingGET_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "description",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "query",
+            "description": "deviceTypeId",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Page not found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Create a Job ",
+        "operationId": "createJobUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createJobRequest",
+            "description": "Properties and values of the Job which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateJobRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Type mismatch or Attribute name mismatch or Duplicate job name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Show details of a job",
+        "operationId": "showUsingGET_3",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ShowJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Edit a Job ",
+        "operationId": "updateUsingPUT_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "apiEditJobRequest",
+            "description": "Properties and values of the Job which is going to be edited",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EditJobRequest"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job that is going to be edited",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/EditJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "409": {
+            "description": "Attribute name or attribute type mismatch or Duplicate job name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Delete a Job ",
+        "operationId": "deleteUsingDELETE_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of a job that is going to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/device-groups": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "List device-groups attached to a job",
+        "operationId": "listAttachedDeviceGroupsOfJobUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job for which the device-groups are going to be displayed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "filters list of device-groups of a job based on name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDeviceGroupsOfJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Page not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/device-groups/{deviceGroupId}": {
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Attach a device-group to a job",
+        "operationId": "attachDeviceGroupToJobUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of device-group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiAttachDeviceGroupToJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or device-group not found"
+          },
+          "409": {
+            "description": "Device-group device-type does not match job device-type or Device-group has already been attached to job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Detach a device-group from a job",
+        "operationId": "detachDeviceGroupFromJobUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceGroupId",
+            "in": "path",
+            "description": "Id of device-group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDetachDeviceGroupFromJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or device-group not found"
+          },
+          "409": {
+            "description": "Device-group has not been attached to the job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/devices": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "List devices attached to a job",
+        "operationId": "listAttachedDevicesOfJobUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job for which the schedules are going to be displayed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "filters list of devices of a job based on name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDevicesOfJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Page not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/devices/{deviceId}": {
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Attach a device to a job",
+        "operationId": "attachDeviceToJobUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of device",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiAttachDeviceToJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Device not found"
+          },
+          "409": {
+            "description": "Job device-type does not match device device-type or Device has already been attached to job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Detach a device from a job",
+        "operationId": "detachDeviceFromJobUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of device",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDetachDeviceFromJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Device not found"
+          },
+          "409": {
+            "description": "Device has not been attached to job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/execute": {
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Execute a job",
+        "operationId": "executeAJobUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListJobExecutionResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Device not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/reports/executions": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Get details of a specified job",
+        "operationId": "listUsingGET_3",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListJobExecutionResponse"
+            }
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/reports/executions/last": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Get details of las job execution",
+        "operationId": "showLastUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiJobReportResponse"
+            }
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/reports/executions/{executionId}": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Get details of the specified job execution",
+        "operationId": "showUsingGET_4",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "executionId",
+            "in": "path",
+            "description": "Id of the execution to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiJobReportResponse"
+            }
+          },
+          "404": {
+            "description": "Job not found or Job execution not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/schedules": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "List schedules of a job",
+        "operationId": "listSchedulesOfJobUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of the job for which the schedules are going to be displayed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListSchedulesOfJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Page not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jobs/{jobId}/schedules/{scheduleId}": {
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Assign a schedule to a job",
+        "operationId": "assignScheduleToJobUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of schedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiAssignScheduleToJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Schedule not found"
+          },
+          "409": {
+            "description": "Schedule has already been assigned to the job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Unassign a schedule from a job",
+        "operationId": "unAssignScheduleFromJobUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Id of job",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of schedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiUnassignScheduleFromJobResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Job not found or Schedule not found"
+          },
+          "409": {
+            "description": "Schedule has not been assigned to the job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/role-assignments": {
+      "post": {
+        "tags": [
+          "Role Assignment"
+        ],
+        "summary": "Assign a role to a user on a device",
+        "operationId": "Create a role-assignment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createRoleAssignRequest",
+            "description": "Properties and values for granting a role",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateRoleAssignmentRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateRoleAssignmentResponse"
+            }
+          },
+          "404": {
+            "description": "Role not found or User not found or Device not found"
+          },
+          "409": {
+            "description": "Role has already been assigned to the user on the device"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/role-assignments/{roleAssignmentId}": {
+      "get": {
+        "tags": [
+          "Role Assignment"
+        ],
+        "summary": "Get details of the specified role-assignment",
+        "operationId": "showRoleAssignmentUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "roleAssignmentId",
+            "in": "path",
+            "description": "Id of the role-assingment which is going to be displayed",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowRoleAssignmentResponse"
+            }
+          },
+          "404": {
+            "description": "Role-assignment not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Role Assignment"
+        ],
+        "summary": "Delete the specified role-assignment",
+        "operationId": "deleteRoleAssignmentUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "roleAssignmentId",
+            "in": "path",
+            "description": "Id of the role-assignment which is going to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteRoleAssignmentResponse"
+            }
+          },
+          "404": {
+            "description": "Role-assignment not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/roles": {
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Get the list of all roles",
+        "operationId": "listUsingGET_4",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "query",
+            "description": "Filters the list based on device-type id",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on role name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListRoleResponse"
+            }
+          },
+          "400": {
+            "description": "Sort parameter problem"
+          },
+          "404": {
+            "description": "Page number exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Create a new role",
+        "operationId": "createUsingPOST_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createRoleRequest",
+            "description": "Properties and values of the role which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateRoleRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateRoleResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute type"
+          },
+          "404": {
+            "description": "Device-type/Attribute-type not found"
+          },
+          "409": {
+            "description": "Duplicate role name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/roles/{roleId}": {
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Get details of a specified role",
+        "operationId": "showUsingGET_5",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Id of the role to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowRoleResponse"
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Edit an existing role",
+        "operationId": "updateUsingPUT_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Id of the role to be edited.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "updateRoleRequest",
+            "description": "role details to update.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiUpdateRoleRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiUpdateRoleResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute-type in request"
+          },
+          "404": {
+            "description": "Role/Attribute not found"
+          },
+          "409": {
+            "description": "Duplicate role name/Role in use"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Delete a specified role",
+        "operationId": "deleteUsingDELETE_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Id of the role to delete",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteRoleResponse"
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "409": {
+            "description": "Role has been assigned"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/schedules": {
+      "get": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Get the list of schedules.",
+        "operationId": "listUsingGET_5",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activationStatus",
+            "in": "query",
+            "description": "Filters the list based on activation status of schedule",
+            "required": false,
+            "type": "boolean",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "cron",
+            "in": "query",
+            "description": "Filters the list based on schedule cron",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Filters the list based on schedule description",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on schedule name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Page number exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Create a schedule",
+        "operationId": "createScheduleUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createScheduleRequest",
+            "description": "Properties and values of the schedule which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateScheduleRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Duplicate schedule name or Hour value error or Minute value error"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/schedules/{scheduleId}": {
+      "get": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Get details of the specified schedule.",
+        "operationId": "showUsingGET_6",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of the schedule to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowSchedulesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Schedule not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Edit a schedule",
+        "operationId": "updateUsingPUT_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "apiEditScheduleRequest",
+            "description": "Properties and values of the schedule which is going to be edited",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiEditScheduleRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of the schedule to be edited.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiEditScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Schedule not found"
+          },
+          "409": {
+            "description": "Duplicate Schedule name or Hour value error or Minute value error"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Delete the specified schedule.",
+        "operationId": "Delete a schedule",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of schedule to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Schedule not found"
+          },
+          "409": {
+            "description": "Schedule is assigned to a job"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/schedules/{scheduleId}/activated": {
+      "put": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Activate the specified schedule.",
+        "operationId": "activates a schedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of schedule to be activated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiActivateScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Schedule not found Or No job has been assigned to this schedule"
+          },
+          "409": {
+            "description": "The schedule has already been activated"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Schedule"
+        ],
+        "summary": "Deactivate the specified schedule",
+        "operationId": "deactivates a schedule for all of its related tasks",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Id of schedule to be deactivated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeactivateScheduleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Schedule not found Or No job has been assigned to this schedule"
+          },
+          "409": {
+            "description": "Schedule has already been deactivated"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Get the list of services.",
+        "operationId": "listUsingGET_6",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListServicesResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user-groups": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Get list of all user-groups.",
+        "operationId": "listUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Filters the list based on user-group name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on user-group name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Create a new user-group",
+        "operationId": "createUserGroupUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createUserGroupRequest",
+            "description": "Properties and values of the user-group which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateUserGroupRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Duplicate user-group name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user-groups/{userGroupId}": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Get details of the specified user-group.",
+        "operationId": "showUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of the user-group which is going to be displayed",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Edit a user-group",
+        "operationId": "editUsingPUT_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "editUserGroupRequest",
+            "description": "Properties and values of the user-group which is going to be edited",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiEditUserGroupRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of the user-group to be edited.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiEditUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found"
+          },
+          "409": {
+            "description": "Duplicate user-group name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Delete the specified user-group.",
+        "operationId": "Delete user-group",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of user-group to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user-groups/{userGroupId}/users": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Get list of users in a user-group.",
+        "operationId": "listUsersOfUserGroupUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of the user-group to show",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListUsersOfGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user-groups/{userGroupId}/users/{username}": {
+      "post": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Add a user to a user-group",
+        "operationId": "addUserToUserGroupUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of the group to which the users are going to be added",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "description": "Username of the user that is going to be added to the group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiAddUserToGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found or User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "Remove a user from group",
+        "operationId": "removeUserFromUserGroupUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userGroupId",
+            "in": "path",
+            "description": "Id of the group from which the user is going to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "description": "username of the user that is going to be deleted from group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiDeleteUserGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User-group not found or User not found"
+          },
+          "409": {
+            "description": "User not exists in group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AddDeviceToDeviceGroupResponse": {
+      "type": "object",
+      "title": "AddDeviceToDeviceGroupResponse"
+    },
+    "ApiActivateScheduleResponse": {
+      "type": "object",
+      "title": "ApiActivateScheduleResponse"
+    },
+    "ApiAddUserToGroupResponse": {
+      "type": "object",
+      "title": "ApiAddUserToGroupResponse"
+    },
+    "ApiAssignScheduleToJobResponse": {
+      "type": "object",
+      "title": "ApiAssignScheduleToJobResponse"
+    },
+    "ApiAttachDeviceGroupToJobResponse": {
+      "type": "object",
+      "title": "ApiAttachDeviceGroupToJobResponse"
+    },
+    "ApiAttachDeviceToJobResponse": {
+      "type": "object",
+      "title": "ApiAttachDeviceToJobResponse"
+    },
+    "ApiAttributePermission": {
+      "type": "object",
+      "properties": {
+        "attributeTypeName": {
+          "type": "string"
+        },
+        "permission": {
+          "type": "string",
+          "enum": [
+            "R",
+            "W",
+            "RW",
+            "N"
+          ]
+        }
+      },
+      "title": "ApiAttributePermission"
+    },
+    "ApiAttributeType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "ApiAttributeType"
+    },
+    "ApiAttributeTypeDetail": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "ApiAttributeTypeDetail"
+    },
+    "ApiCreateDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceRequest"
+    },
+    "ApiCreateDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "apiSsoKeys": {
+          "$ref": "#/definitions/ApiSsoKeys"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "deviceToken": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "encryptionKey": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceResponse"
+    },
+    "ApiCreateDeviceTypeRequest": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeType"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encryptionEnabled": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceTypeRequest"
+    },
+    "ApiCreateDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeTypeDetail"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceTypeResponse"
+    },
+    "ApiCreateJobResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTwinDesiredAttributes": {
+          "type": "object",
+          "example": {
+            "attributeName1": "value1",
+            "attributeName2": 100,
+            "attributeName3": "value3"
+          }
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateJobResponse"
+    },
+    "ApiCreateRoleAssignmentRequest": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "roleId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateRoleAssignmentRequest"
+    },
+    "ApiCreateRoleAssignmentResponse": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "roleId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateRoleAssignmentResponse"
+    },
+    "ApiCreateRoleRequest": {
+      "type": "object",
+      "properties": {
+        "attributePermissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributePermission"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateRoleRequest"
+    },
+    "ApiCreateRoleResponse": {
+      "type": "object",
+      "properties": {
+        "attributePermissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributePermission"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateRoleResponse"
+    },
+    "ApiCreateScheduleRequest": {
+      "type": "object",
+      "properties": {
+        "cron": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateScheduleRequest"
+    },
+    "ApiCreateScheduleResponse": {
+      "type": "object",
+      "properties": {
+        "cron": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateScheduleResponse"
+    },
+    "ApiCreateUserGroupRequest": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateUserGroupRequest"
+    },
+    "ApiCreateUserGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateUserGroupResponse"
+    },
+    "ApiDeactivateScheduleResponse": {
+      "type": "object",
+      "title": "ApiDeactivateScheduleResponse"
+    },
+    "ApiDeleteDeviceGroupResponse": {
+      "type": "object",
+      "title": "ApiDeleteDeviceGroupResponse"
+    },
+    "ApiDeleteDeviceTwinResponse": {
+      "type": "object",
+      "title": "ApiDeleteDeviceTwinResponse"
+    },
+    "ApiDeleteJobResponse": {
+      "type": "object",
+      "title": "ApiDeleteJobResponse"
+    },
+    "ApiDeleteRoleAssignmentResponse": {
+      "type": "object",
+      "title": "ApiDeleteRoleAssignmentResponse"
+    },
+    "ApiDeleteRoleResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "ApiDeleteRoleResponse"
+    },
+    "ApiDeleteScheduleResponse": {
+      "type": "object",
+      "title": "ApiDeleteScheduleResponse"
+    },
+    "ApiDeleteUserGroupResponse": {
+      "type": "object",
+      "title": "ApiDeleteUserGroupResponse"
+    },
+    "ApiDetachDeviceFromJobResponse": {
+      "type": "object",
+      "title": "ApiDetachDeviceFromJobResponse"
+    },
+    "ApiDetachDeviceGroupFromJobResponse": {
+      "type": "object",
+      "title": "ApiDetachDeviceGroupFromJobResponse"
+    },
+    "ApiDeviceMaster": {
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isOwned": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiDeviceMaster"
+    },
+    "ApiDeviceTwinAttributesDesired": {
+      "type": "object",
+      "properties": {
+        "desired": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "title": "ApiDeviceTwinAttributesDesired"
+    },
+    "ApiDeviceTwinDesired": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/definitions/ApiDeviceTwinAttributesDesired"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ApiDeviceTwinDesired"
+    },
+    "ApiDeviceTwinDetail": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/definitions/ApiDeviceTwinStateDetails"
+        }
+      },
+      "title": "ApiDeviceTwinDetail"
+    },
+    "ApiDeviceTwinStateDetails": {
+      "type": "object",
+      "properties": {
+        "desired": {
+          "type": "object"
+        },
+        "reported": {
+          "type": "object"
+        }
+      },
+      "title": "ApiDeviceTwinStateDetails"
+    },
+    "ApiDeviceTypeMaster": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiDeviceTypeMaster"
+    },
+    "ApiEditDeviceGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditDeviceGroupResponse"
+    },
+    "ApiEditDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditDeviceRequest"
+    },
+    "ApiEditDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditDeviceResponse"
+    },
+    "ApiEditScheduleRequest": {
+      "type": "object",
+      "properties": {
+        "cron": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditScheduleRequest"
+    },
+    "ApiEditScheduleResponse": {
+      "type": "object",
+      "properties": {
+        "cron": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditScheduleResponse"
+    },
+    "ApiEditUserGroupRequest": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditUserGroupRequest"
+    },
+    "ApiEditUserGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditUserGroupResponse"
+    },
+    "ApiJobMaster": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiJobMaster"
+    },
+    "ApiJobReportResponse": {
+      "type": "object",
+      "properties": {
+        "countDevicesChanged": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "iotJobId": {
+          "type": "string"
+        },
+        "jobExecutionStatus": {
+          "type": "string"
+        },
+        "nextFireTime": {
+          "type": "string"
+        },
+        "previousFireTime": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        }
+      },
+      "title": "ApiJobReportResponse"
+    },
+    "ApiListDeviceGroupsOfJobResponse": {
+      "type": "object",
+      "properties": {
+        "deviceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceGroupMaster"
+          }
+        },
+        "jobId": {
+          "type": "string"
+        }
+      },
+      "title": "ApiListDeviceGroupsOfJobResponse"
+    },
+    "ApiListDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceMaster"
+          }
+        }
+      },
+      "title": "ApiListDeviceResponse"
+    },
+    "ApiListDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceTypeMaster"
+          }
+        }
+      },
+      "title": "ApiListDeviceTypeResponse"
+    },
+    "ApiListDevicesOfJobResponse": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceMaster"
+          }
+        },
+        "jobId": {
+          "type": "string"
+        }
+      },
+      "title": "ApiListDevicesOfJobResponse"
+    },
+    "ApiListJobExecutionResponse": {
+      "type": "object",
+      "title": "ApiListJobExecutionResponse"
+    },
+    "ApiListJobResponse": {
+      "type": "object",
+      "properties": {
+        "jobs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiJobMaster"
+          }
+        }
+      },
+      "title": "ApiListJobResponse"
+    },
+    "ApiListRoleResponse": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiRoleMaster"
+          }
+        }
+      },
+      "title": "ApiListRoleResponse"
+    },
+    "ApiListScheduleResponse": {
+      "type": "object",
+      "properties": {
+        "scheduleDetailsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiScheduleMaster"
+          }
+        }
+      },
+      "title": "ApiListScheduleResponse"
+    },
+    "ApiListSchedulesOfJobResponse": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "type": "string"
+        },
+        "scheduleDetailsList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiScheduleMaster"
+          }
+        }
+      },
+      "title": "ApiListSchedulesOfJobResponse"
+    },
+    "ApiListServicesResponse": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiServiceDetail"
+          }
+        }
+      },
+      "title": "ApiListServicesResponse"
+    },
+    "ApiListUserGroupResponse": {
+      "type": "object",
+      "properties": {
+        "userGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiUserGroupMaster"
+          }
+        }
+      },
+      "title": "ApiListUserGroupResponse"
+    },
+    "ApiListUsersOfGroupResponse": {
+      "type": "object",
+      "properties": {
+        "userGroupMembers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ApiListUsersOfGroupResponse"
+    },
+    "ApiRoleMaster": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiRoleMaster"
+    },
+    "ApiScheduleMaster": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "isActivated": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiScheduleMaster"
+    },
+    "ApiSendDataToDeviceResponse": {
+      "type": "object",
+      "title": "ApiSendDataToDeviceResponse"
+    },
+    "ApiServiceDetail": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "HEAD",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS",
+            "TRACE"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "title": "ApiServiceDetail"
+    },
+    "ApiShowDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowDeviceResponse"
+    },
+    "ApiShowDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeTypeDetail"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowDeviceTypeResponse"
+    },
+    "ApiShowRoleAssignmentResponse": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "roleId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowRoleAssignmentResponse"
+    },
+    "ApiShowRoleResponse": {
+      "type": "object",
+      "properties": {
+        "attributePermissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributePermission"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowRoleResponse"
+    },
+    "ApiShowSchedulesResponse": {
+      "type": "object",
+      "properties": {
+        "cron": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isActivated": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowSchedulesResponse"
+    },
+    "ApiShowUserGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowUserGroupResponse"
+    },
+    "ApiSsoKeys": {
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "type": "string"
+        },
+        "certificateFormat": {
+          "type": "string"
+        },
+        "expireDate": {
+          "type": "string"
+        },
+        "keyAlgorithm": {
+          "type": "string"
+        },
+        "keyFormat": {
+          "type": "string"
+        },
+        "privateKey": {
+          "type": "string"
+        },
+        "publicKey": {
+          "type": "string"
+        },
+        "signatureAlgorithm": {
+          "type": "string"
+        }
+      },
+      "title": "ApiSsoKeys"
+    },
+    "ApiUnassignScheduleFromJobResponse": {
+      "type": "object",
+      "title": "ApiUnassignScheduleFromJobResponse"
+    },
+    "ApiUpdateRoleRequest": {
+      "type": "object",
+      "properties": {
+        "attributePermissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributePermission"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiUpdateRoleRequest"
+    },
+    "ApiUpdateRoleResponse": {
+      "type": "object",
+      "properties": {
+        "attributePermissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributePermission"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiUpdateRoleResponse"
+    },
+    "ApiUserGroupMaster": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiUserGroupMaster"
+    },
+    "ApiWriteDataResponse": {
+      "type": "object",
+      "title": "ApiWriteDataResponse"
+    },
+    "AttributeValue": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "AttributeValue"
+    },
+    "CreateDeviceGroupRequest": {
+      "type": "object",
+      "required": [
+        "deviceTypeId",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of device group which is going to be created"
+        },
+        "deviceTypeId": {
+          "type": "string",
+          "description": "Each device-group is dedicated to exactly one device-type. So "
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of the device-group which is going to be created"
+        }
+      },
+      "title": "CreateDeviceGroupRequest"
+    },
+    "CreateDeviceGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "CreateDeviceGroupResponse"
+    },
+    "CreateJobRequest": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTwinDesiredAttributes": {
+          "type": "object",
+          "example": {
+            "attributeName1": "value1",
+            "attributeName2": 100,
+            "attributeName3": "value3"
+          }
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "CreateJobRequest"
+    },
+    "DeviceGroupMaster": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "DeviceGroupMaster"
+    },
+    "EditDeviceGroupRequest": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "EditDeviceGroupRequest"
+    },
+    "EditJobRequest": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTwinDesiredAttributes": {
+          "type": "object",
+          "example": {
+            "attributeName1": "value1",
+            "attributeName2": 100,
+            "attributeName3": "value3"
+          }
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "EditJobRequest"
+    },
+    "EditJobResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTwinDesiredAttributes": {
+          "type": "object",
+          "example": {
+            "attributeName1": "value1",
+            "attributeName2": 100,
+            "attributeName3": "value3"
+          }
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "EditJobResponse"
+    },
+    "ListDeviceGroupsResponse": {
+      "type": "object",
+      "properties": {
+        "deviceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceGroupMaster"
+          }
+        }
+      },
+      "title": "ListDeviceGroupsResponse"
+    },
+    "ListDeviceOfDeviceGroupResponse": {
+      "type": "object",
+      "properties": {
+        "deviceGroupMembers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceMaster"
+          }
+        }
+      },
+      "title": "ListDeviceOfDeviceGroupResponse"
+    },
+    "ReadDataRequest": {
+      "type": "object",
+      "properties": {
+        "attributeValues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttributeValue"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        }
+      },
+      "title": "ReadDataRequest"
+    },
+    "RemoveDeviceFromDeviceGroup": {
+      "type": "object",
+      "title": "RemoveDeviceFromDeviceGroup"
+    },
+    "ResponseEntity": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "statusCode": {
+          "type": "string",
+          "enum": [
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "statusCodeValue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ResponseEntity"
+    },
+    "ShowDeviceGroupResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ShowDeviceGroupResponse"
+    },
+    "ShowJobResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "deviceTwineDesiredAttributes": {
+          "type": "object",
+          "example": {
+            "attributeName1": "value1",
+            "attributeName2": 100,
+            "attributeName3": "value3"
+          }
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ShowJobResponse"
+    }
+  }
+}

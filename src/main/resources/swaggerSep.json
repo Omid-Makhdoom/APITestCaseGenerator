@@ -1,0 +1,265 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sepandar API",
+    "description": "",
+    "termsOfService": "",
+    "version": ""
+  },
+  "host": "api-sepandar.fanapsoft.ir",
+  "basePath": "/api/cms",
+  "paths": {
+    "/operators": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "display operators list.",
+        "description": "نمایش لیست اپراتورها",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation."
+          },
+          "401": {
+            "description": "unauthorized action."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Save operator record.",
+        "description": "ایجاد اپراتور",
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "formData",
+            "description": "شناسه کاربر",
+            "required": true,
+            "type": "number",
+            "default": "26026"
+          },
+          {
+            "name": "sso_id",
+            "in": "formData",
+            "description": "شناسه  sso",
+            "required": true,
+            "type": "number",
+            "default": "10002"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "نوع ",
+            "required": true,
+            "type": "string",
+            "default": "tsp_operator"
+          },
+          {
+            "name": "tsp_serial",
+            "in": "formData",
+            "description": "شناسه tsp",
+            "required": true,
+            "type": "integer",
+            "default": "126"
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "description": "نام",
+            "required": true,
+            "type": "string",
+            "default": "کاووس"
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "description": "نام خانوادگی",
+            "required": true,
+            "type": "string",
+            "default": "قبادیان"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "save record."
+          },
+          "401": {
+            "description": "Unauthorized action."
+          }
+        }
+      }
+    },
+    "/operators/{id}": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Get one row of operator.",
+        "description": "دریافت اپراتور",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation."
+          },
+          "401": {
+            "description": "Unauthorized action."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Update operator record.",
+        "description": "بروزرسانی اپراتور",
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "user_id",
+            "in": "formData",
+            "description": "شناسه کاربر",
+            "required": true,
+            "type": "number",
+            "default": "26026"
+          },
+          {
+            "name": "sso_id",
+            "in": "formData",
+            "description": "شناسه  sso",
+            "required": true,
+            "type": "number",
+            "default": "10002"
+          },
+          {
+            "name": "tsp_serial",
+            "in": "formData",
+            "description": "شناسه tsp",
+            "required": true,
+            "type": "string",
+            "default": "401200"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "نوع ",
+            "required": true,
+            "type": "string",
+            "default": "tsp_operator"
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "description": "نام",
+            "required": true,
+            "type": "string",
+            "default": "کاووس"
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "description": "نام خانوادگی",
+            "required": true,
+            "type": "string",
+            "default": "قبادیان"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update record."
+          },
+          "401": {
+            "description": "Unauthorized action."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {}
+}

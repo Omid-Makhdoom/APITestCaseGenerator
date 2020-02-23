@@ -1,0 +1,102 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "B2B2C services",
+    "version": "1.18.0.0",
+    "title": "Core API"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/nzh/biz/topRateProduct/": {
+      "get": {
+        "tags": [
+          "market"
+        ],
+        "summary": "",
+        "description": "دریافت لیست محصولاتی که بالاترین امتیاز را دارند",
+        "operationId": "getTopRateProduct",
+        "parameters": [
+          {
+            "name": "guildCode[]",
+            "in": "query",
+            "description": "لیست کد صنف",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "currencyCode",
+            "in": "query",
+            "description": "کد ارز",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "شناسه کسب و کار",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categoryCode",
+            "in": "query",
+            "description": "کد دسته محصول",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "لیست شناسه های کالایی که جستجو بین آنها محدود می شود",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "result offset",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "maxCount",
+            "in": "query",
+            "description": "result size",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "_token_",
+            "in": "header",
+            "description": "توکنی که بعد از ورود به سیستم یا از پنل کسب و کار دریافت شده است و می توان به عنوان پارامتر هم وارد نمود",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "_token_issuer_",
+            "in": "header",
+            "description": "مرجع صادرکننده توکن و می توان به عنوان پارامتر هم وارد نمود.<br>0: توکن های داخلی (پیشفرض). 1: توکن های دریافت شده از sso",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  }
+}

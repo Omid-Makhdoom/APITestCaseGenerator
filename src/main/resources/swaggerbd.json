@@ -1,0 +1,1040 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Pod IoT Platform is all you need to provision, manage and automate your connected devices. ",
+    "version": "2.1.6.0",
+    "title": "Pod IoT Platform API",
+    "termsOfService": "#",
+    "contact": {
+      "name": "Podiot",
+      "url": "https://iot.pod.ir",
+      "email": "iot@fanap.ir"
+    },
+    "license": {
+      "name": "Podiot"
+    }
+  },
+  "host": "iot-api.pod.ir",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Device",
+      "description": "DEVICE services and operations live here"
+    },
+    {
+      "name": "Device Type",
+      "description": "DEVICE-TYPE services and operations live here"
+    }
+  ],
+  "paths": {
+    "/device-types": {
+      "get": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Get list of device-types in the platform.",
+        "operationId": "listUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on device-type name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDeviceTypeResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Create a device-type",
+        "operationId": "createUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to create.",
+            "schema": {
+              "type": "object",
+              "required": [
+                "userName"
+              ],
+              "properties": {
+                "userName": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceTypeResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute type"
+          },
+          "409": {
+            "description": "Duplicate device-type"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/device-types/{deviceTypeId}": {
+      "get": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Get details of a specified device-type.",
+        "operationId": "showUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "path",
+            "description": "Id of the device type to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowDeviceTypeResponse"
+            }
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device Type"
+        ],
+        "summary": "Delete specified device-type in the platform, if exists.",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "path",
+            "description": "Id of the device-type to delete.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Device-type in use"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Get the list of devices.",
+        "operationId": "listUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTypeId",
+            "in": "query",
+            "description": "deviceTypeId",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "isOwned",
+            "in": "query",
+            "description": "True means only my devices, False means granted devices, Leave it empty for listing all of owned and granted devices.",
+            "required": false,
+            "type": "boolean",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filters the list based on device name",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number index",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items in each page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter based on which the list is sorted",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiListDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Page number exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Create a device",
+        "operationId": "createUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "createDeviceRequest",
+            "description": "Properties and values of the device which is going to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiCreateDeviceResponse"
+            }
+          },
+          "400": {
+            "description": "Duplicate attribute type"
+          },
+          "404": {
+            "description": "Device-type not found"
+          },
+          "409": {
+            "description": "Duplicate device"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "502": {
+            "description": "Backend service failure (data store failure)"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/devices/{deviceId}": {
+      "get": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Get details of a specified device.",
+        "operationId": "showUsingGET_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to show",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiShowDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Edit a device",
+        "operationId": "editUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of the device to be edited.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "editDeviceRequest",
+            "description": "Properties and values of the device which is going to be edited",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ApiEditDeviceRequest"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ApiEditDeviceResponse"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "409": {
+            "description": "Duplicate device name"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Device"
+        ],
+        "summary": "Delete specified device in the current user space, if exists.",
+        "operationId": "Delete device",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "User token received from pod.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "Id of device to be deleted",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timeStamp",
+            "in": "header",
+            "description": "Time stamp of generating request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "404": {
+            "description": "Device not found"
+          },
+          "409": {
+            "description": "Device is attached to a job or Device is member of a group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+	"User": {
+    "type": "object",
+    "required":[
+       "userName"
+	  ],
+    "properties":{
+      "userName":{
+        "type": "string"
+		},
+      "firstName":{
+        "type": "string"
+		},
+      "lastName":{
+        "type": "string"
+		}
+		}
+		},
+    "ApiAttributeType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "ApiAttributeType"
+    },
+    "ApiAttributeTypeDetail": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "ApiAttributeTypeDetail"
+    },
+    "ApiCreateDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "integer"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceRequest"
+    },
+    "ApiCreateDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "apiSsoKeys": {
+          "$ref": "#/definitions/ApiSsoKeys"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "deviceToken": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "encryptionKey": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceResponse"
+    },
+    "ApiCreateDeviceTypeRequest": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeType"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encryptionEnabled": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceTypeRequest"
+    },
+    "ApiCreateDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeTypeDetail"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiCreateDeviceTypeResponse"
+    },
+    "ApiDeviceMaster": {
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isOwned": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiDeviceMaster"
+    },
+    "ApiDeviceTypeMaster": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiDeviceTypeMaster"
+    },
+    "ApiEditDeviceRequest": {
+      
+              "type": "object",
+              "required": [
+                "userName", "lastName"
+              ],
+              "properties": {
+                "userName": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                }
+              },
+      "title": "ApiEditDeviceRequest"
+    },
+    "ApiEditDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiEditDeviceResponse"
+    },
+    "ApiListDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceMaster"
+          }
+        }
+      },
+      "title": "ApiListDeviceResponse"
+    },
+    "ApiListDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDeviceTypeMaster"
+          }
+        }
+      },
+      "title": "ApiListDeviceTypeResponse"
+    },
+    "ApiShowDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "deviceTypeId": {
+          "type": "string"
+        },
+        "deviceTypeName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pushURL": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowDeviceResponse"
+    },
+    "ApiShowDeviceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiAttributeTypeDetail"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "ApiShowDeviceTypeResponse"
+    },
+    "ApiSsoKeys": {
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "type": "string"
+        },
+        "certificateFormat": {
+          "type": "string"
+        },
+        "expireDate": {
+          "type": "string"
+        },
+        "keyAlgorithm": {
+          "type": "string"
+        },
+        "keyFormat": {
+          "type": "string"
+        },
+        "privateKey": {
+          "type": "string"
+        },
+        "publicKey": {
+          "type": "string"
+        },
+        "signatureAlgorithm": {
+          "type": "string"
+        }
+      },
+      "title": "ApiSsoKeys"
+    },
+    "ResponseEntity": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "statusCode": {
+          "type": "string",
+          "enum": [
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "statusCodeValue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ResponseEntity"
+    }
+  }
+}
